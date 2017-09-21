@@ -12,31 +12,34 @@ const save = (url, output, filter = format => format.container === 'mp4') => {
 		});
 	});
 };
-const saveAudio = (url, output) => {
-	return new Promise((resolve, reject) => {
-		getInfo(url).then(info => {
-			save(info.url, output, 'audioonly').then(() => {
-				resolve();
-			});
-		}).catch(reject);
+const saveAudio = (URL, output) => {
+	return new Promise(async(resolve, reject) => {
+		try {
+			const { url } = await getInfo(URL);
+			await save(url, output, 'audioonly');
+			resolve();
+		}
+		catch (err) { return reject(err) }
 	});
 };
-const saveVideo = (url, output) => {
-	return new Promise((resolve, reject) => {
-		getInfo(url).then(info => {
-			save(info.url, output, 'videoonly').then(() => {
-				resolve();
-			});
-		}).catch(reject);
+const saveVideo = (URL, output) => {
+	return new Promise(async(resolve, reject) => {
+		try {
+			const { url } = await getInfo(URL);
+			await save(url, output, 'videoonly');
+			resolve();
+		}
+		catch (err) { return reject(err) }
 	});
 };
-const saveMp4 = (url, output) => {
-	return new Promise((resolve, reject) => {
-		getInfo(url).then(info => {
-			save(info.url, output).then(() => {
-				resolve();
-			});
-		}).catch(reject);
+const saveMp4 = (URL, output) => {
+	return new Promise(async(resolve, reject) => {
+		try {
+			const { url } = await getInfo(URL);
+			await save(url, output);
+			resolve();
+		}
+		catch (err) { return reject(err) }
 	});
 };
 const getInfo = url => {

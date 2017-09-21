@@ -7,6 +7,9 @@
   "author": "Alexandre Silva <contato@silvalexandre.com>",
   "license": "MIT",
   "private": false,
+  "engines": {
+    "node": ">= 7.6.0"
+  },
   "dependencies": {
     "query-string": "^5.0.0",
     "ytdl-core": "^0.17.1"
