@@ -1,0 +1,10 @@
+{
+  "name": "yt-down",
+  "version": "0.0.1",
+  "description": "Downloads youtube links in audio/video formats",
+  "main": "index.js",
+  "repository": "https://github.com/silvalexandre/yt-down.git",
+  "author": "Alexandre Silva <contato@silvalexandre.com>",
+  "license": "MIT",
+  "private": false
+}
