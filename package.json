@@ -6,5 +6,9 @@
   "repository": "https://github.com/silvalexandre/yt-down.git",
   "author": "Alexandre Silva <contato@silvalexandre.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "query-string": "^5.0.0",
+    "ytdl-core": "^0.17.1"
+  }
 }
