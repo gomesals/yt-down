@@ -1,6 +1,6 @@
 {
   "name": "yt-down",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Downloads youtube links in audio/video formats",
   "main": "index.js",
   "repository": "https://github.com/silvalexandre/yt-down.git",
