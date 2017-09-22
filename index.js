@@ -1,68 +1,52 @@
 "use strict";
 
+const express = require('express');
+const bodyParser = require('body-parser');
+const compression = require('compression');
 const fs = require('fs');
-const ytdl = require('ytdl-core');
-const queryString = require('query-string');
+const app = express();
+require('dotenv').config();
 
-const save = (url, output, filter = format => format.container === 'mp4') => {
-	return new Promise(resolve => {
-		const stream = ytdl(url, { filter, }).pipe(fs.createWriteStream(output));
-		stream.on('finish', () => {
-			return resolve();
+app.set('view engine', 'pug');
+app.use(express.static('./public'));
+app.use(bodyParser.json());
+app.use(compression());
+app.use(bodyParser.urlencoded({
+	extended: false
+}));
+
+app.get('/', (req, res) => {
+	res.render('index', {
+		video: req.query.v ? `https://www.youtube.com/?v=${req.query.v}` : '',
+	});
+});
+app.use('/download', require('./routes/'));
+app.use('/api', require('./api/'));
+
+app.listen(process.env.PORT || 8080, function() {
+	console.log(`Server started at port ${process.env.PORT || 8080}`);
+	clearFolder('./public/files');
+});
+
+const clearFolder = path => {
+	if (fs.existsSync(path)) {
+		fs.readdirSync(path).forEach((file, index) => {
+			const curPath = path + "/" + file;
+			if (fs.lstatSync(curPath).isDirectory()) {
+				clearFolder(curPath);
+			}
+			else {
+				fs.unlinkSync(curPath);
+			}
 		});
-	});
-};
-const saveAudio = (URL, output) => {
-	return new Promise(async(resolve, reject) => {
-		try {
-			const { url } = await getInfo(URL);
-			await save(url, output, 'audioonly');
-			resolve();
-		}
-		catch (err) { return reject(err) }
-	});
-};
-const saveVideo = (URL, output) => {
-	return new Promise(async(resolve, reject) => {
-		try {
-			const { url } = await getInfo(URL);
-			await save(url, output, 'videoonly');
-			resolve();
-		}
-		catch (err) { return reject(err) }
-	});
-};
-const saveMp4 = (URL, output) => {
-	return new Promise(async(resolve, reject) => {
-		try {
-			const { url } = await getInfo(URL);
-			await save(url, output);
-			resolve();
-		}
-		catch (err) { return reject(err) }
-	});
-};
-const getInfo = url => {
-	return new Promise((resolve, reject) => {
-		const { v } = queryString.parse(url.split('?')[1]);
-		ytdl.getInfo(v, (err, info) => {
-			if (err) return reject(err);
-			return resolve({
-				data: {
-					title: info.title,
-					rating: info.average_rating,
-					uploaded: info.author.name,
-					lentgh: info.length_seconds,
-				},
-				url: `https://www.youtube.com/?v=${v}`,
-			});
-		});
-	});
+		fs.rmdirSync(path);
+		createFolder(path);
+	}
+	else {
+		createFolder(path);
+	}
 };
 
-module.exports = {
-	saveAudio,
-	saveMp4,
-	saveVideo,
-	getInfo,
+const createFolder = path => {
+	fs.mkdirSync(path);
 };

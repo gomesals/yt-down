@@ -1,0 +1,33 @@
+doctype
+html
+	head
+		meta(charset="utf-8")
+		meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+		title yt-down
+		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css")
+	body
+		nav.navbar.navbar-expand-lg.navbar-dark.bg-primary.justify-content-between
+			a.navbar-brand(href="#") yt-down
+			ul.navbar-nav
+				li.nav-item.active
+					a.nav-link(href="https://github.com/silvalexandre/yt-down") Source code
+		main.container
+			h1 yt-down
+			form#form
+				.form-group
+					label(for="link") Link
+					input#link.form-control(type="url" placeholder="Link" value=video required)
+				button(type="submit" class="btn btn-primary") Send
+			.card
+				.card-body
+					.card-title
+						h4#title Title
+					.card-text
+						p#uploaded Uploaded
+						p#length Length
+					a.btn.btn-primary#asmp3(href="#") Download as mp3
+					span &nbsp;
+					a.btn.btn-primary#asmp4(href="#") Download as mp4
+				.card-footer.text-muded The file is stored for 15 minutes.
+		script(src="https://unpkg.com/axios/dist/axios.min.js")
+		script(src="js/app.js")
